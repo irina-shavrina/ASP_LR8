@@ -1,0 +1,62 @@
+﻿@page
+@model ASP.NET.Views.Main.ProductViewModel
+@{
+    List<Product>? products = TempData["Products"] as List<Product>;
+    if (products is null || TempData["mode"] is null)
+    {
+        throw new Exception();
+    }
+
+    string mode = TempData["mode"].ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form action="ProductView" method="post">
+        <label for="mode">Select mode:</label>
+        <select id="mode" name="mode">
+            <option value="list">List</option>
+            <option value="grid">Table</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Send">
+    </form>
+    @if (mode == "list")
+    {
+        foreach(Product product in products)
+        {
+            <p>@product.Id.@product.Name - @product.Price$ (@product.CreatedDateTime)</p>
+        }
+    } 
+    @if (mode == "grid")
+    {
+        <table>
+            @foreach(Product product in products)
+            {
+                    <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.CreatedDateTime</td>
+                     </tr>
+            }
+        </table>
+    }
+    <a href="/ProductView?mode=grid">Add product</a>
+</body>
+</html>
