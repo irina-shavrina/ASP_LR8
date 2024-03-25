@@ -1,0 +1,37 @@
+﻿@page
+@model ASP.NET.Views.Main.AddProductModel
+@{
+    string str = "Not add";
+    bool statusAvilable = TempData.ContainsKey("Status");
+    if (statusAvilable)
+    {
+        bool? status = Convert.ToBoolean(TempData["Status"]);
+        if (status == true)
+        {
+            str = "Add new product";
+        }
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding</title>
+</head>
+<body>
+    @if (statusAvilable){
+    <p>@str</p>
+    }
+    <form action="AddProduct" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" step="0.01"><br><br>
+
+        <input type="submit" value="Add">
+    </form>
+    <a href="/ProductView">List of products</a>
+</body>
+</html>
